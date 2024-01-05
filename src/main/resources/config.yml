@@ -1,0 +1,20 @@
+classes:
+  Virksomhedsøkonomi:
+    alias: VØ
+    metadata: []
+  Engelsk:
+    alias: EN
+    metadata: []
+  Dansk:
+    alias: DK
+    metadata: []
+  Samfundsfag:
+    alias: samf
+    metadata: []
+  Informatik:
+    alias: IT
+    metadata: []
+  InternationalØkonomi:
+    alias: IØ
+    metadata: []#egenskaber -> creator
+

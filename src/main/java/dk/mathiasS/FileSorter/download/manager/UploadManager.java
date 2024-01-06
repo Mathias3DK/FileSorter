@@ -23,7 +23,7 @@ public class UploadManager {
 
         fileChooser.setMultiSelectionEnabled(true);
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "Word, Excel & Onenote", "docx", "xlsx");
+                "Word, Excel & Onenote", "docx", "xlsx", "one");
         fileChooser.setFileFilter(filter);
 
         int userSelection = fileChooser.showSaveDialog(null);
@@ -31,9 +31,11 @@ public class UploadManager {
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File[] files = fileChooser.getSelectedFiles();
 
+            System.out.println(this.instance.cached);
             for(File file : files){
-                if(this.instance.cached.get(file.getName())!=null) continue;
-                this.instance.cached.put(file.getName(), file);
+                if(!this.instance.cached.containsKey(file.getName()))
+                    this.instance.cached.put(file.getName(), file);
+
             }
             System.out.println("Tilføjede " + files.length + " filer til cachen.");
             return true;

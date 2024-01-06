@@ -14,9 +14,8 @@ import java.util.HashMap;
 
 public class Application {
 
-    private Font font;
+    private final Font font;
     public HandleCached handleCached;
-
     public HashMap<String, File> cached = new HashMap<>();
     public Application() {
         this.font=new Font("Verdana", Font.BOLD, 20);
@@ -37,6 +36,7 @@ public class Application {
 
         //functional buttons
         JButton configureBox=new JButton("Konfigurer moduler");
+        configureBox.setFocusable(false);
 
         configureBox.setBackground(new Color(38, 87, 246));
         configureBox.setBorder(new BasicBorders.FieldBorder(Color.BLACK,
@@ -51,6 +51,7 @@ public class Application {
 
         //setting background and border for all looped fields
         for(JButton field : new JButton[]{addFile, clearCacheBox, startBox, sortBox}){
+            field.setFocusable(false);
             field.setBackground(new Color(38, 165, 246));
             field.setBorder(new BasicBorders.FieldBorder(Color.BLACK,
                     Color.BLACK,
@@ -60,8 +61,10 @@ public class Application {
         //list of cached files
         JTextArea field = new JTextArea("");
         field.setEditable(false);
+        field.setFocusable(false);
 
         this.handleCached=new HandleCached(this,field);
+        this.handleCached.define();
 
         field.setBorder(new BasicBorders.FieldBorder(Color.BLACK,
                 Color.BLACK,
@@ -86,9 +89,9 @@ public class Application {
             frame.add((Component) obj);
         }
 
-        startBox.addActionListener(new FileAction(startBox));
-        clearCacheBox.addActionListener(new ClearAction(clearCacheBox, handleCached));
-        addFile.addActionListener(new AddAction(addFile, new UploadManager(this), this));
+        SwingUtilities.invokeLater(() -> startBox.addActionListener(new FileAction(startBox)));
+        SwingUtilities.invokeLater(() -> clearCacheBox.addActionListener(new ClearAction(clearCacheBox, handleCached)));
+        SwingUtilities.invokeLater(() -> addFile.addActionListener(new AddAction(addFile, new UploadManager(this), this)));
 
         //frame setup
 

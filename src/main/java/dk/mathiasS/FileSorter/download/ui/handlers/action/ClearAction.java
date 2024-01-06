@@ -20,11 +20,11 @@ public class ClearAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if(this.button==null) return;
+        if(this.button==null||!button.isVisible()) return;
 
         //if button is pressed
         if(button.isEnabled()){
-            manager.clear();
+            manager.clear(true);
         }
     }
 }

@@ -7,10 +7,12 @@ package dk.mathiasS.FileSorter;
 
 import dk.mathiasS.FileSorter.download.ui.Application;
 
+import javax.swing.*;
+
 public class Main {
 
-    public static void main(String[] args) throws Exception {
-        new Application().open();
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(Application::new);
     }
 
 }

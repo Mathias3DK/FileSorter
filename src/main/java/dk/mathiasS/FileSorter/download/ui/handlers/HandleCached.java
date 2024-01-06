@@ -23,6 +23,9 @@ public class HandleCached {
 
     }
     public void define() {
+        clear(false);
+        this.field.setBorder(null);
+
         StringBuilder add = new StringBuilder();
 
         for(File files: this.main.cached.values()){
@@ -43,11 +46,14 @@ public class HandleCached {
                 for (int j = i; j < end; j++) {
                     // Fjern alle mellemrum i teksten
                     parts[j] = parts[j].replaceAll("\\s", "");
+                    for(String replace : new String[]{".docx",".xlsl", ".one"}) {
+                        parts[j] = parts[j].replaceAll(replace, "");
+                    }
 
                     // Tjek om teksten overskrider karaktergrænsen
-                    if (parts[j].length() > 16) {
+                    if (parts[j].length() > 10) {
                         // Hvis det gør, forkort teksten
-                        parts[j] = parts[j].substring(0, 16);
+                        parts[j] = parts[j].substring(0, 10);
                     }
                     this.field.append(parts[j]);
 
@@ -75,8 +81,8 @@ public class HandleCached {
     }
 
 
-    public void clear(){
-        this.main.cached.clear();
+    public void clear(boolean cache){
+        if(cache) this.main.cached.clear();
         this.field.setText("");
         this.components=0;
     }

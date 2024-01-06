@@ -15,27 +15,12 @@
     </properties>
 
     <dependencies>
-
-
-        <!-- JMX Remote Implementations -->
         <dependency>
-            <groupId>com.sun.jmx</groupId>
-            <artifactId>jmxri</artifactId>
-            <version>1.2.1</version> <!-- Erstat med den nyeste version -->
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+            <version>1.16.22</version>
         </dependency>
-
-        <!-- JMX WMI Connector -->
-        <dependency>
-            <groupId>com.sun.jdmk</groupId>
-            <artifactId>jmxtools</artifactId>
-            <version>1.2.1</version> <!-- Erstat med den nyeste version -->
-        </dependency>
-    <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <scope>provided</scope>
-        <version>1.16.22</version>
-    </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>

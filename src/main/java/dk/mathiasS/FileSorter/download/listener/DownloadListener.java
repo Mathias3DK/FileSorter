@@ -21,12 +21,14 @@ public class DownloadListener {
         return enabled;
     }
 
-    public void toggle() {
+    public boolean toggle() {
         if (!enabled) {
             start();
         }
         enabled = !enabled;
         System.out.println("Togglede fil eventet: " + enabled);
+
+        return enabled;
     }
     private void start() {
         // Sti til mappen, du vil overvåge

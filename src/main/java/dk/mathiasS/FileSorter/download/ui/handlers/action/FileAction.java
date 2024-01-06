@@ -20,11 +20,12 @@ public class FileAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if(this.button==null) return;
+        if(this.button==null||!button.isVisible()) return;
 
         //if button is pressed
         if(button.isEnabled()){
-            event.toggle();
+            boolean enabled = event.toggle();
+            button.setText((enabled ? "Stop" : "Start") + " File Listener");
         }
     }
 }

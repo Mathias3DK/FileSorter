@@ -5,13 +5,12 @@ package dk.mathiasS.FileSorter;
 //
 
 
-import dk.mathiasS.FileSorter.configuration.ConfigurationFile;
-import dk.mathiasS.FileSorter.download.listener.DownloadListener;
+import dk.mathiasS.FileSorter.download.ui.Application;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        new dk.mathiasS.FileSorter.download.ui.DefineFileUI();
+        new Application().open();
     }
 
 }

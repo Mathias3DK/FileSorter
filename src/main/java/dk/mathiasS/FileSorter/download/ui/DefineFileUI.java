@@ -3,6 +3,7 @@ package dk.mathiasS.FileSorter.download.ui;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DefineFileUI extends JFrame {
@@ -10,7 +11,7 @@ public class DefineFileUI extends JFrame {
     private final JFrame frame;
     private final Font font;
 
-    private Object[] components;
+    private ArrayList<Object> components = new ArrayList<>();
 
     public DefineFileUI(){
         this.frame=new JFrame("Definer fil");
@@ -33,7 +34,7 @@ public class DefineFileUI extends JFrame {
 
         JButton test = button("Hej");
 
-        this.components=new Object[]{label, test};
+        this.components.add(label);
 
         initialize();
     }
@@ -52,8 +53,17 @@ public class DefineFileUI extends JFrame {
                 Color.BLACK,
                 Color.BLACK));
 
+        int a = 0;
+        for(Object comp : this.components){
+            if (comp instanceof JButton){
+                a++;
+            }
+        }
+        System.out.printf(String.valueOf(a));
+        //int y = components.length >
         temp.setBounds(100,210,200,40);
 
+        this.components.add(temp);
 
         return temp;
     }

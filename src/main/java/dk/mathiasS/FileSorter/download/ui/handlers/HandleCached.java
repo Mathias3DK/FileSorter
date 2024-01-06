@@ -3,10 +3,8 @@ package dk.mathiasS.FileSorter.download.ui.handlers;
 import dk.mathiasS.FileSorter.download.ui.Application;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.io.File;
-import java.util.Arrays;
 
 public class HandleCached {
 

@@ -25,7 +25,7 @@ public class Application {
     }
     public void open() {
         JFrame frame = new JFrame("FilSortering af Mathias");
-        //frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //husk og fjern den her når projektet skal bruges.
 
         Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Schje\\Downloads\\Icons8_flat_opened_folder.svg.png");
         frame.setIconImage(icon);

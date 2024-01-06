@@ -94,7 +94,6 @@ public class Application {
         SwingUtilities.invokeLater(() -> addFile.addActionListener(new AddAction(addFile, new UploadManager(this), this)));
 
         //frame setup
-
         frame.setResizable(false);
         frame.getContentPane().setBackground(new Color(255, 255, 255));
         frame.setSize(410, 535);

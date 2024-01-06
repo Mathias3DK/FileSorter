@@ -6,6 +6,7 @@ package dk.mathiasS.FileSorter;
 
 
 import dk.mathiasS.FileSorter.download.ui.Application;
+import dk.mathiasS.FileSorter.download.ui.DefineFileUI;
 
 import javax.swing.*;
 

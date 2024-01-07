@@ -31,13 +31,15 @@ public class UploadManager {
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File[] files = fileChooser.getSelectedFiles();
 
-            System.out.println(this.instance.cached);
+            int count=0;
             for(File file : files){
-                if(!this.instance.cached.containsKey(file.getName()))
+                if(!this.instance.cached.containsKey(file.getName())){
                     this.instance.cached.put(file.getName(), file);
 
+                    count++;
+                }
             }
-            System.out.println("Tilføjede " + files.length + " filer til cachen.");
+            System.out.println("Tilføjede " + count + " file" + (count > 1 ? "r" : "") + " til cachen.");
             return true;
         }
     return false;

@@ -39,10 +39,7 @@ public class Application {
         configureBox.setFocusable(false);
 
         configureBox.setBackground(new Color(38, 87, 246));
-        configureBox.setBorder(new BasicBorders.FieldBorder(Color.BLACK,
-                Color.BLACK,
-                Color.BLACK,
-                Color.BLACK));
+        configureBox.setBorder(BorderFactory.createLineBorder(Color.black, 3));
 
         JButton startBox=new JButton("Start Fil Listener");
         JButton sortBox=new JButton("Sorter cached filer");
@@ -53,10 +50,7 @@ public class Application {
         for(JButton field : new JButton[]{addFile, clearCacheBox, startBox, sortBox}){
             field.setFocusable(false);
             field.setBackground(new Color(38, 165, 246));
-            field.setBorder(new BasicBorders.FieldBorder(Color.BLACK,
-                    Color.BLACK,
-                    Color.BLACK,
-                    Color.BLACK));
+            field.setBorder(BorderFactory.createLineBorder(Color.black, 3));
         }
         //list of cached files
         JTextArea field = new JTextArea("");

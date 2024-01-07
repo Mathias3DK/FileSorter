@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DefineFileUI extends JFrame {
     private final ArrayList<Object> components = new ArrayList<>();
@@ -24,13 +23,19 @@ public class DefineFileUI extends JFrame {
         this.setVisible(true);
 
         //TITLE
-        JLabel label = new JLabel("FIL SORTERING");
+        JLabel label = new JLabel("Valg af moduler");
         label.setOpaque(false);
         label.setFont(font);
         label.setBounds(110,20,250,60);
 
-        JButton test = button("Hej");
-        button("hejsa");
+        button("Matematik");
+        button("Samfundsfag");
+        button("Engelsk");
+        button("Hej");
+        button("Hej");
+        button("Hej");
+        button("Hej");
+
 
         this.components.add(label);
 
@@ -50,11 +55,11 @@ public class DefineFileUI extends JFrame {
     public JButton button(String title){
         JButton temp=new JButton(title);
 
-        temp.setBackground(new Color(38, 165, 246));
-        temp.setBorder(new BasicBorders.FieldBorder(Color.BLACK,
-                Color.BLACK,
-                Color.BLACK,
-                Color.BLACK));
+        temp.setFocusable(false);
+
+        temp.setForeground(Color.WHITE);
+        temp.setBackground(new Color(3, 60, 93));
+        temp.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
         int a = 0;
         for(Object comp : this.components){
@@ -62,20 +67,60 @@ public class DefineFileUI extends JFrame {
                 a++;
             }
         }
-
         int y = 90;
         int sHeight = 40;
         int sWidth = 200;
 
-        y = (y + (a > 0 ? ((sHeight * a)) + (sHeight / 4 * a) : 0));
-        if(90 + y <= this.size().height) {
+        y = (y + (a > 0 ? ((sHeight * a)) + (sHeight / 5 * a) : 0));
+        if(90 + y <= this.size().height - 30) {
             temp.setBounds(100, y, sWidth, sHeight);
+
+            this.components.add(temp);
         } else{
             System.out.println("Not enough space for the new button!");
         }
 
-        this.components.add(temp);
+        int maxHeight = this.size().height - 210; // Maximum available height for buttons
+        int buttonHeight = 40; // Height of each button
+        int spaceBetweenButtons = buttonHeight / 4; // Space between buttons
+
+        int maxButtons = maxHeight / (buttonHeight + spaceBetweenButtons);
+
+        if(maxButtons <= a)
+            {
+
+            createPage();
+
+        }
 
         return temp;
     }
+
+    private void createPage() {
+
+        JButton[] buttons=new JButton[]{
+                new JButton("Næste side"),
+                new JButton("Sidste side")
+        };
+
+        //safe check, if there isn't already existing buttons
+        if(!this.components.contains(buttons[0])||!this.components.contains(buttons[1])){
+
+            for (int i = 0; i < buttons.length; i++) {
+                buttons[i].setFocusable(false);
+
+                buttons[i].setForeground(Color.WHITE);
+                buttons[i].setBackground(new Color(4, 108, 168));
+                buttons[i].setBorder(BorderFactory.createLineBorder(Color.black, 3));
+
+                buttons[i].setBounds(90 + (i == 1 ? 120 : 0), 440, 100, 30);
+
+                this.components.add(buttons[i]);
+            }
+        } else{
+            //define buttons as already existing buttons
+        }
+    }
+
+
 }

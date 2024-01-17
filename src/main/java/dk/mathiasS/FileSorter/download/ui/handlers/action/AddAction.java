@@ -33,9 +33,10 @@ public class AddAction implements ActionListener {
             try {
                 boolean con=manager.openChooser();
 
-                if(con){
+                if(con)
+                {
                     this.instance.handleCached.define();
-                }
+                    }
             } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException |
                      IllegalAccessException ex) {
                 throw new RuntimeException(ex);

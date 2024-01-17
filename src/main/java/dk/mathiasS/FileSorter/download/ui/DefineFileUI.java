@@ -3,12 +3,17 @@ package dk.mathiasS.FileSorter.download.ui;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 
 public class DefineFileUI extends JFrame {
     private final ArrayList<Object> components = new ArrayList<>();
+    private final File file;
 
-    public DefineFileUI(){
+    public DefineFileUI(File file){
+
+        this.file=file;
+
         JFrame frame = new JFrame("Definer fil");
         Font font = new Font("Verdana", Font.BOLD, 20);
 
@@ -24,7 +29,6 @@ public class DefineFileUI extends JFrame {
 
         //TITLE
         JLabel label = new JLabel("Valg af moduler");
-        label.setOpaque(false);
         label.setFont(font);
         label.setBounds(110,20,250,60);
 

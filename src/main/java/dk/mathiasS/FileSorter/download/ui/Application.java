@@ -38,7 +38,7 @@ public class Application {
         JButton configureBox=new JButton("Konfigurer moduler");
         configureBox.setFocusable(false);
 
-        configureBox.setBackground(new Color(38, 87, 246));
+        configureBox.setBackground(new Color(35, 80, 196));
         configureBox.setBorder(BorderFactory.createLineBorder(Color.black, 3));
 
         JButton startBox=new JButton("Start Fil Listener");
@@ -60,10 +60,7 @@ public class Application {
         this.handleCached=new HandleCached(this,field);
         this.handleCached.define();
 
-        field.setBorder(new BasicBorders.FieldBorder(Color.BLACK,
-                Color.BLACK,
-                Color.BLACK,
-                Color.BLACK));
+        field.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 
         //field bounds
         configureBox.setBounds(100,275,200,40);
@@ -89,7 +86,7 @@ public class Application {
 
         //frame setup
         frame.setResizable(false);
-        frame.getContentPane().setBackground(new Color(255, 255, 255));
+        frame.getContentPane().setBackground(new Color(255, 255, 255, 255));
         frame.setSize(410, 535);
         frame.setLocation(450,70);
         frame.setLayout(null);

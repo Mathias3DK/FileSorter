@@ -24,7 +24,6 @@ public class ConfigurationFile {
             con = create();
         }
         this.file=file;
-        System.out.printf(file.getName());
         this.configuration = new Yaml();
         this.loaded = configuration.load(Files.newInputStream(file.toPath()));
     }
@@ -59,7 +58,7 @@ public class ConfigurationFile {
             Map<String, Object> sectionValue = (Map<String, Object>) classesSection.get(sectionName);
 
             // Now you can access specific properties within the section
-            String alias = (String) sectionValue.get("alias");
+            String alias = (String) sectionValue.get(value);
             System.out.println("Alias for " + sectionName + ": " + alias);
         }
         return null;

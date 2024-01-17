@@ -56,7 +56,7 @@ public class DownloadListener {
                                 Path nyFil = (Path) event.context();
                                 System.out.println("Ny fil oprettet: " + nyFil);
 
-                                new DefineFileUI();
+                                new DefineFileUI(nyFil.toFile());
                             }
                         }
 

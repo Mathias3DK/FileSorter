@@ -32,6 +32,7 @@ public class DefineFileUI extends JFrame {
         label.setFont(font);
         label.setBounds(110,20,250,60);
 
+        //
         button("Matematik");
         button("Samfundsfag");
         button("Engelsk");
@@ -103,8 +104,8 @@ public class DefineFileUI extends JFrame {
     private void createPage() {
 
         JButton[] buttons=new JButton[]{
-                new JButton("Næste side"),
-                new JButton("Sidste side")
+                new JButton("Sidste side"),
+                new JButton("Næste side")
         };
 
         //safe check, if there isn't already existing buttons

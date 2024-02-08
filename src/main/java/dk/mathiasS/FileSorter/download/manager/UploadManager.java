@@ -16,14 +16,14 @@ public class UploadManager {
     }
 
     public boolean openChooser() throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); //set Look and Feel to Windows
-        JFileChooser fileChooser = new JFileChooser(); //Create a new GUI that will use the current(windows) Look and Feel
-        UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName()); //revert the Look and Feel back to the ugly Swing
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        JFileChooser fileChooser = new JFileChooser();
+        UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         fileChooser.setDialogTitle("Vælg en fil");
 
         fileChooser.setMultiSelectionEnabled(true);
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "Word, Excel & Onenote", "docx", "xlsx", "one");
+                "Word, Excel, PDF & Onenote", "docx", "xlsx", "one", "pdf");
         fileChooser.setFileFilter(filter);
 
         int userSelection = fileChooser.showSaveDialog(null);

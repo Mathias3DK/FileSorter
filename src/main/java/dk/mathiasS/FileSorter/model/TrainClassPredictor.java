@@ -1,47 +1,33 @@
 package dk.mathiasS.FileSorter.model;
 
 import dk.mathiasS.FileSorter.model.data.DataRetriever;
-import weka.classifiers.Classifier;
-import weka.core.Instances;
 
-import java.io.File;
-import java.util.Random;
-
+// TrainClassPredictor.java
 public class TrainClassPredictor {
 
-    private static final String path = "C:/Users/Schje/Downloads/FileSorter - af Mathias/";
-
     public static void main(String[] args) {
-        try {
-            // Load or create an instance of ClassPredictor
-            ClassPredictor predictor = new ClassPredictor();
+        // Test data
+        DataRetriever testData = new DataRetriever("Ligninger", "Kate", 60.0, "Ligninger", "pdf");
 
-            // Load model if available, otherwise train a new classifier
-            ClassifierLoader loader = new ClassifierLoader();
-            Classifier classifier = loader.loadModel(path + "/" + "SubjectPredictor_model.model");
+        // Create instances of classes
+        ClassPredictor predictor = new ClassPredictor();
+        ClassifierLoader classifierLoader = new ClassifierLoader("C:/Users/Schje/Downloads/FileSorter - af Mathias/" + "modelFile.model", "C:/Users/Schje/Downloads/FileSorter - af Mathias/" + "trainingData.arff");
 
-            if (classifier == null) {
-                // Train a new classifier
-                DataRetriever data = new DataRetriever(new File(path + "/" + "config.yml"));
-                predictor.addTrainingInstance(data.getName(), data.getOwner(), data.getSize(), data.getContent(), data.getType());
+        // Load classifier
+        classifierLoader.loadClassifier(predictor);
 
-                // Build classifier
-                Instances trainingData = loader.loadArff(path + "/" + "data.arff");
-                predictor.buildClassifier(trainingData);
+        // Train classifier (Assuming you have labeled data to add)
+        predictor.addTrainingInstance(testData, "Matematik");
+        predictor.trainClassifier();
 
-                // Save the trained model
-                loader.saveModel("C:/Users/Schje/Downloads/FileSorter - af Mathias/SubjectPredictor_model.model", predictor.getClassifier());
-            } else {
-                // Use the loaded model for predictions
-                predictor.setClassifier(classifier);
-            }
-            // Perform prediction
-            String prediction = predictor.predict();
+        // Save ARFF and model files
+        classifierLoader.saveARFF("C:/Users/Schje/Downloads/FileSorter - af Mathias/" + "trainingData.arff", predictor.getTrainingData());
+        classifierLoader.saveModel("C:/Users/Schje/Downloads/FileSorter - af Mathias/" + "modelFile.model", predictor.getClassifier());
 
-            // Print prediction
-            System.out.println("Subject for a random file " + prediction);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Predict the class for the test data
+        String predictedClass = predictor.predictClass(testData);
+
+        // Print the result
+        System.out.println("Predicted Class: " + predictedClass);
     }
 }

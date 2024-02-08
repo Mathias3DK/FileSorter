@@ -25,6 +25,8 @@ public class ClearAction implements ActionListener {
         //if button is pressed
         if(button.isEnabled()){
             manager.clear(true);
+
+
         }
     }
 }

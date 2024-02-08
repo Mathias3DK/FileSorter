@@ -2,43 +2,60 @@ package dk.mathiasS.FileSorter.model;
 
 import weka.classifiers.Classifier;
 import weka.core.Instances;
+import weka.core.converters.ArffSaver;
+import weka.core.SerializationHelper;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 public class ClassifierLoader {
+    private String modelFilePath;
+    private String arffFilePath;
 
-    public Classifier loadModel(String modelFilePath) throws IOException, ClassNotFoundException {
-        File modelFile = new File(modelFilePath);
-        if (modelFile.exists()) {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(modelFile));
-            Classifier classifier = (Classifier) ois.readObject();
-            ois.close();
-            System.out.println("Model loaded: " + modelFilePath);
-            return classifier;
+    // Constructor
+    public ClassifierLoader(String modelFilePath, String arffFilePath) {
+        this.modelFilePath = modelFilePath;
+        this.arffFilePath = arffFilePath;
+    }
+
+    // Load model or ARFF file based on training progress
+    public void loadClassifier(ClassPredictor predictor) {
+        if (trainingInProgress()) {
+            // Load ARFF file
+            predictor.loadARFF(arffFilePath);
         } else {
-            System.out.println("Model file not found: " + modelFilePath);
-            return null;
+            // Load model file
+            predictor.loadModel(modelFilePath);
         }
     }
 
-    public Instances loadArff(String arffFilePath) throws IOException {
+    // Save ARFF file
+    public void saveARFF(String arffFilePath, Instances dataset) {
+        // Save ARFF logic
+        ArffSaver arffSaver = new ArffSaver();
+        arffSaver.setInstances(dataset);
+        try {
+            arffSaver.setFile(new File(arffFilePath));
+            arffSaver.writeBatch();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Save model file
+    public void saveModel(String modelFilePath, Classifier classifier) {
+        // Save model logic
+        try {
+            SerializationHelper.write(modelFilePath, classifier);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Check if training is in progress
+    private boolean trainingInProgress() {
         File arffFile = new File(arffFilePath);
-        if (arffFile.exists()) {
-            BufferedReader reader = new BufferedReader(new FileReader(arffFile));
-            Instances trainingData = new Instances(reader);
-            reader.close();
-            System.out.println("ARFF file loaded: " + arffFilePath);
-            return trainingData;
-        } else {
-            System.out.println("ARFF file not found: " + arffFilePath);
-            return null;
-        }
-    }
-
-    public void saveModel(String modelFilePath, Classifier classifier) throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(modelFilePath));
-        oos.writeObject(classifier);
-        oos.close();
-        System.out.println("Model saved: " + modelFilePath);
+        File modelFile = new File(modelFilePath);
+        return arffFile.exists() && !modelFile.exists();
     }
 }

@@ -102,7 +102,10 @@ public class HandleCached {
                 (visibleLines >= field.getLineCount() || visibleRect.getHeight() == 0);
     }
     public void clear(boolean cache){
-        if(cache) this.main.cached.clear();
+        if(cache){
+            System.out.println("Rydede " + this.main.cached.size() + " filer.");
+            this.main.cached.clear();
+        }
         this.field.setText("");
     }
 }

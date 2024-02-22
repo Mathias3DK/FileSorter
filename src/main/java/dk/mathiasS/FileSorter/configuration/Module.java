@@ -5,13 +5,19 @@ import java.io.File;
 public class Module {
 
     private String name;
-    private String file_root="C:\\Users\\Schje\\Downloads\\FileSorter - af Mathias\\";
+    private String file_root="C:/Users/Schje/Desktop/Skole/";
 
     private String dir;
 
     public Module(String name){
         this.name=name; //setting the name
     }
+
+    //make the instance from the file
+    public Module(File file){
+        //this.name=new File(file_root )
+    }
+
     public void create(){
         if(!new File(file_root + "\\" + name).exists())
             new File(file_root + "\\" + name).mkdir();
@@ -23,6 +29,11 @@ public class Module {
     public String getDir(){
         return dir;
     }
+
+    public void setDir(String path){
+        dir = path;
+    }
+
     public void estimate(){
         //estimate all the files
     }

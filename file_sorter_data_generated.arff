@@ -1,0 +1,20 @@
+@relation FileSorterData
+
+@attribute name string
+@attribute owner string
+@attribute size numeric
+@attribute content string
+@attribute type string
+@attribute subject {Virksomhedsøkonomi,Engelsk,Dansk,Samfundsfag,Informatik,InternationalØkonomi,Afsætning}
+
+@data
+File1,Owner1,439.460117,Content1,pdf,Afsætning
+File2,Owner2,495.589017,Content2,docx,Samfundsfag
+File3,Owner3,206.265987,Content3,xlsx,Virksomhedsøkonomi
+File4,Owner4,383.140521,Content4,pdf,Afsætning
+File5,Owner5,415.005092,Content5,csv,Virksomhedsøkonomi
+File6,Owner6,119.818049,Content6,ppt,Virksomhedsøkonomi
+File7,Owner7,142.568622,Content7,csv,Informatik
+File8,Owner8,160.716314,Content8,xlsx,Informatik
+File9,Owner9,18.008678,Content9,ppt,Virksomhedsøkonomi
+File10,Owner10,136.212533,Content10,docx,InternationalØkonomi

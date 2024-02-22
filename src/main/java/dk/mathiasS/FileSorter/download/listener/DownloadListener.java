@@ -63,6 +63,8 @@ public class DownloadListener {
                         key.reset();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                 }
 

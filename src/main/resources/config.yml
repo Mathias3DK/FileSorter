@@ -14,7 +14,10 @@ classes:
   Informatik:
     alias: IT
     metadata: []
-  InternationalØkonomi:
+  International økonomi:
     alias: IØ
     metadata: []#egenskaber -> creator
+  Afsætning:
+    alias: AF
+    metadata: []
 

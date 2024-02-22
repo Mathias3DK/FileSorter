@@ -46,25 +46,23 @@ public class ConfigurationFile {
     public Set<String> getKeys(){
         return loaded.keySet();
     }
+    //value you want - the subject
     public Object getInSection(String value, String section){
         Map<String, Object> classesSection = (Map<String, Object>) loaded.get("classes");
 
-        // Specify the section name you're interested in
-        String sectionName = section; //convert from shortcut too
+        String sectionName = section;
 
-        // Check if the section exists
         if (classesSection.containsKey(sectionName)) {
-            // Get the value associated with the specified section name
             Map<String, Object> sectionValue = (Map<String, Object>) classesSection.get(sectionName);
 
-            // Now you can access specific properties within the section
-            String alias = (String) sectionValue.get(value);
-            System.out.println("Alias for " + sectionName + ": " + alias);
+            String result = (String) sectionValue.get(value);
+            return result;
         }
         return null;
     }
 
     public Object get(String value) {
+        System.out.printf(loaded.toString());
         if(value==null)return loaded.values();
         return loaded.get(value);
     }

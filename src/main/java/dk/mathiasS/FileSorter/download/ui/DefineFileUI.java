@@ -1,16 +1,20 @@
 package dk.mathiasS.FileSorter.download.ui;
 
+import dk.mathiasS.FileSorter.Main;
+import dk.mathiasS.FileSorter.configuration.Module;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class DefineFileUI extends JFrame {
     private final ArrayList<Object> components = new ArrayList<>();
     private final File file;
 
-    public DefineFileUI(File file){
+    public DefineFileUI(File file) throws IOException {
 
         this.file=file;
 
@@ -32,15 +36,10 @@ public class DefineFileUI extends JFrame {
         label.setFont(font);
         label.setBounds(110,20,250,60);
 
-        //
-        button("Matematik");
-        button("Samfundsfag");
-        button("Engelsk");
-        button("Hej");
-        button("Hej");
-        button("Hej");
-        button("Hej");
-
+        //classes
+        for(Module module : Main.initalizeClasses()) {
+            button(module.getName());
+        }
 
         this.components.add(label);
 

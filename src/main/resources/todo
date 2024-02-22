@@ -1,3 +1,5 @@
+V1.0
+
 find fil type ud fra split mellem "-"
 hvis mappe ikke findes lav mappe
 
@@ -9,6 +11,7 @@ batch file, open user input:
 module class defines by user creates them in input
 modules get saved in configo
 
+V1.1
 
 on download of file, open gui where it defines what class it belongs to
 if doesnt exist in config make it the section
@@ -19,3 +22,10 @@ then sort files where it belongs, made from the config
 
 on define ui, take all selected files and make an class that defines all the mutual traits
 like name, file size, file type and so on
+
+V1.2:
+Switched up to machine learning (WEKA API)
+
+Configure Modules:
+ add module; name tab for module
+ configuration such as, autosort, delete when not used

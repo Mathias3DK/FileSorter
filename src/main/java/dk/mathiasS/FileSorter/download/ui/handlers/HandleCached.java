@@ -88,16 +88,12 @@ public class HandleCached {
         int caretPosition = field.getCaretPosition();
         int documentLength = field.getDocument().getLength();
 
-        // Get the visible rectangle in the JTextArea
         Rectangle visibleRect = field.getVisibleRect();
 
-        // Get the font metrics to determine the line height
         int lineHeight = field.getFontMetrics(field.getFont()).getHeight();
 
-        // Calculate the number of visible lines
         int visibleLines = (int) (visibleRect.getHeight() / lineHeight);
 
-        // Check if the caret is at the end of the document and the new text fits in the visible area
         return caretPosition == documentLength &&
                 (visibleLines >= field.getLineCount() || visibleRect.getHeight() == 0);
     }

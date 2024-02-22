@@ -1,0 +1,19 @@
+@relation FileSorterData
+
+@attribute name string
+@attribute owner string
+@attribute size numeric
+@attribute content string
+@attribute type string
+@attribute subject {Engelsk,Matematik,Samfundsfag,Dansk,Informatik,Virksomhedsøkonomi,Internationaløkonomi,Afsætning}
+
+@data
+'Problemløsning','Kate',100,'Ligningen','pdf',Matematik
+'Logbog','Frank',150,'spreadsheet','xlsx',Informatik
+'The Second amendment','Pia',200,'presentation','ppt',Engelsk
+'Ole lukøje',Line,120,'document','docx',Dansk
+02.04,'Frank Andersen',90,'spreadsheet','csv',Virksomhedsøkonomi
+'Opløs ulighederne opgaver','Kate',130,'document','pdf',Matematik
+'The Cold War','Pia',110,'presentation','ppt',Engelsk
+'Et skud i tågen','Line',140,'spreadsheet','xlsx',Dansk
+'Ligninger','Kate',60,'Ligninger','pdf',Matematik

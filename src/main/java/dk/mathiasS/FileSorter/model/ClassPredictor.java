@@ -4,6 +4,7 @@ import dk.mathiasS.FileSorter.model.data.DataRetriever;
 import weka.classifiers.Classifier;
 import weka.classifiers.trees.J48;
 import weka.core.*;
+import weka.core.converters.ArffLoader;
 import weka.core.converters.ArffSaver;
 
 import java.io.BufferedReader;
@@ -18,32 +19,31 @@ public class ClassPredictor {
 
     // Constructor
     public ClassPredictor() {
-        // Initialize your classifier (J48 in this case)
-        classifier = new J48();
-        // Initialize trainingData with an empty dataset
+        Attribute nameAttr = new Attribute("name", true);
+        Attribute ownerAttr = new Attribute("owner", true);
+        Attribute sizeAttr = new Attribute("size");
+        Attribute contentAttr = new Attribute("content", true);
+        Attribute typeAttr = new Attribute("type", true);
+
         ArrayList<Attribute> attributes = new ArrayList<>();
-        // Define your attributes here...
+        attributes.add(nameAttr);
+        attributes.add(ownerAttr);
+        attributes.add(sizeAttr);
+        attributes.add(contentAttr);
+        attributes.add(typeAttr);
+
         trainingData = new Instances("PredictorData", attributes, 0);
         trainingData.setClassIndex(attributes.size() - 1);
-
-        // Print statement for debugging
-        System.out.println("ClassPredictor created with an empty training dataset.");
+        classifier=new J48();
     }
 
     // Load ARFF file
-    public void loadARFF(String arffFilePath) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(arffFilePath));
-            Instances data = new Instances(reader);
-            reader.close();
-            data.setClassIndex(data.numAttributes() - 1);
-            trainingData = data;
 
-            // Print statement for debugging
-            System.out.println("ARFF file loaded. Training dataset updated.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void loadARFF(String filePath) throws IOException {
+        ArffLoader loader = new ArffLoader();
+        loader.setFile(new File(filePath));
+        Instances data = loader.getDataSet();
+        data.setClassIndex(data.numAttributes() - 1); // Assuming the last attribute is the class attribute
     }
 
     // Load model file
@@ -154,7 +154,6 @@ public class ClassPredictor {
         for (int i = 0; i < dataset.numAttributes(); i++) {
             Attribute attribute = dataset.attribute(i);
 
-            // Adjust this part based on your DataRetriever class
             switch (attribute.name()) {
                 case "name":
                     instance.setValue(attribute, dataRetriever.getName());
@@ -172,7 +171,6 @@ public class ClassPredictor {
                     instance.setValue(attribute, dataRetriever.getType());
                     break;
                 default:
-                    // Handle other attributes if needed
                     break;
             }
         }

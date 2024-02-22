@@ -19,14 +19,18 @@ public class ClassifierLoader {
     }
 
     // Load model or ARFF file based on training progress
-    public void loadClassifier(ClassPredictor predictor) {
-        if (trainingInProgress()) {
-            // Load ARFF file
-            predictor.loadARFF(arffFilePath);
-        } else {
-            // Load model file
-            predictor.loadModel(modelFilePath);
-        }
+    public void loadClassifier(ClassPredictor predictor) throws IOException {
+        System.out.println("Training: " + trainingInProgress());
+        System.out.printf(arffFilePath);
+        predictor.loadARFF(arffFilePath);
+        //if (trainingInProgress()) {
+        //    // Load ARFF file
+        //    System.out.println("Training: " + trainingInProgress());
+        //    predictor.loadARFF(arffFilePath);
+        //} else {
+        //    // Load model file
+        //    predictor.loadModel(modelFilePath);
+        //}
     }
 
     // Save ARFF file

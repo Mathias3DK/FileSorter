@@ -2,30 +2,31 @@ package dk.mathiasS.FileSorter.download.ui;
 
 import dk.mathiasS.FileSorter.download.manager.UploadManager;
 import dk.mathiasS.FileSorter.download.ui.handlers.HandleCached;
-import dk.mathiasS.FileSorter.download.ui.handlers.action.AddAction;
-import dk.mathiasS.FileSorter.download.ui.handlers.action.ClearAction;
-import dk.mathiasS.FileSorter.download.ui.handlers.action.FileAction;
+import dk.mathiasS.FileSorter.download.ui.handlers.action.application.AddAction;
+import dk.mathiasS.FileSorter.download.ui.handlers.action.application.ClearAction;
+import dk.mathiasS.FileSorter.download.ui.handlers.action.application.FileAction;
+import dk.mathiasS.FileSorter.download.ui.handlers.action.configure.ConfigureAction;
+import dk.mathiasS.FileSorter.download.ui.handlers.configure.ConfigureUI;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 import java.io.File;
 import java.util.HashMap;
 
 public class Application {
 
+    private final JFrame frame;
     private final Font font;
     public HandleCached handleCached;
     public HashMap<String, File> cached = new HashMap<>();
+
     public Application() {
         this.font=new Font("Verdana", Font.BOLD, 20);
+        this.frame = new JFrame("Fil Sortering af M.O.S");
 
         this.open();
     }
     public void open() {
-        JFrame frame = new JFrame("FilSortering af Mathias");
-        //frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //husk og fjern den her når projektet skal bruges.
-
         Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Schje\\Downloads\\Icons8_flat_opened_folder.svg.png");
         frame.setIconImage(icon);
 
@@ -39,9 +40,10 @@ public class Application {
         configureBox.setFocusable(false);
 
         configureBox.setBackground(new Color(35, 80, 196));
+        configureBox.setForeground(new Color(255, 255, 255));
         configureBox.setBorder(BorderFactory.createLineBorder(Color.black, 3));
 
-        JButton startBox=new JButton("Start Fil Listener");
+        JButton startBox=new JButton("Start Auto sortering");
         JButton sortBox=new JButton("Sorter cached filer");
         JButton clearCacheBox=new JButton("Ryd cached filer");
         JButton addFile=new JButton("Tilføj filer til cache");
@@ -84,13 +86,26 @@ public class Application {
         SwingUtilities.invokeLater(() -> clearCacheBox.addActionListener(new ClearAction(clearCacheBox, handleCached)));
         SwingUtilities.invokeLater(() -> addFile.addActionListener(new AddAction(addFile, new UploadManager(this), this)));
 
+        configureBox.addActionListener(e -> showConfigureUI());
+
         //frame setup
         frame.setResizable(false);
         frame.getContentPane().setBackground(new Color(255, 255, 255, 255));
         frame.setSize(410, 535);
-        frame.setLocation(450,70);
+        frame.setLocationRelativeTo(null);
+        //frame.setLocation(450,70);
         frame.setLayout(null);
         frame.setVisible(true);
     }
+
+    private void showConfigureUI() {
+        ConfigureUI configureUI = new ConfigureUI();
+        frame.getContentPane().removeAll();
+        frame.getContentPane().add(configureUI);
+        frame.getContentPane().revalidate();
+        frame.getContentPane().repaint();
+    }
+
+
 }
 

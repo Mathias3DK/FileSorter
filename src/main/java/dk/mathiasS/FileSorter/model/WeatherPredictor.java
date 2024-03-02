@@ -1,6 +1,7 @@
 package dk.mathiasS.FileSorter.model;
 
 import weka.classifiers.Classifier;
+import weka.classifiers.evaluation.Evaluation;
 import weka.classifiers.trees.J48;
 import weka.core.*;
 import weka.core.converters.ConverterUtils.DataSource;
@@ -54,7 +55,7 @@ public class WeatherPredictor {
         return trainingData.classAttribute().value((int) prediction);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         try {
             WeatherPredictor weatherPredictor = new WeatherPredictor("weather_data.arff");
 
@@ -83,6 +84,30 @@ public class WeatherPredictor {
             System.out.println("Yes: " + (pred_yes));
             System.out.println("No: " + (pred_no));
             System.out.println("Instances: " + (pred_no + pred_yes));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        WeatherPredictor weatherPredictor = new WeatherPredictor("weather_data.arff");
+
+        weatherPredictor.buildClassifier();
+        System.out.println(weatherPredictor.classifier);
+
+        J48 classifier = (J48) weatherPredictor.classifier;
+
+        FileWriter writer = new FileWriter("decision_tree.dot");
+        writer.write(classifier.graph());
+        writer.close();
+
+        System.out.println("Decision tree exported to 'decision_tree.dot'");
+
+
+        try {
+
+            Evaluation eval = new Evaluation(weatherPredictor.trainingData);
+            eval.crossValidateModel(weatherPredictor.classifier, weatherPredictor.trainingData, 10, new Random(1));
+
+            System.out.println(eval.toSummaryString());
+
         } catch (Exception e) {
             e.printStackTrace();
         }

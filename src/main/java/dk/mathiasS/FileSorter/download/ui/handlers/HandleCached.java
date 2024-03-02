@@ -20,6 +20,7 @@ public class HandleCached {
 
     }
     public void define() {
+
         clear(false);
         this.field.setBorder(null);
 
@@ -35,7 +36,6 @@ public class HandleCached {
 
         //rows of 3
         for (int i = 0; i < parts.length; i += 3) {
-            //get last if there is less than 3
             int end = Math.min(i + 3, parts.length);
 
             if (canFitText()) {
@@ -69,17 +69,12 @@ public class HandleCached {
         if (remainingFiles > 0) {
             String currentText = this.field.getText();
 
-            // Split the current text by spaces
             String[] textArray = currentText.split("   ");
 
-            // Check if there are enough elements to consider
             if (textArray.length > 0) {
-                // Get the last element
                 String lastElement = textArray[textArray.length - 1];
-                System.out.println(lastElement);
 
-                // Replace the last element with "Og x flere"
-                String newText = currentText.substring(0, currentText.length() - (lastElement.length() + 3)) + "...Og " + remainingFiles + " flere.!";
+                String newText = currentText.substring(0, currentText.length() - (lastElement.length() + 5)) + "...Og " + remainingFiles + " flere.!";
                 this.field.setText(newText);
             }
         }

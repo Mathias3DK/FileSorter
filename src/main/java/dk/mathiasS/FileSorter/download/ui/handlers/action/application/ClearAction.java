@@ -1,6 +1,5 @@
-package dk.mathiasS.FileSorter.download.ui.handlers.action;
+package dk.mathiasS.FileSorter.download.ui.handlers.action.application;
 
-import dk.mathiasS.FileSorter.download.listener.DownloadListener;
 import dk.mathiasS.FileSorter.download.ui.handlers.HandleCached;
 
 import javax.swing.*;

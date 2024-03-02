@@ -21,13 +21,11 @@ public class TrainClassPredictor {
         predictor.trainClassifier();
 
         // Save ARFF and model files
-        //classifierLoader.saveARFF("C:/Users/Schje/Downloads/FileSorter - af Mathias/" + "trainingData.arff", predictor.getTrainingData());
+        classifierLoader.saveARFF("C:/Users/Schje/Downloads/FileSorter - af Mathias/" + "trainingData.arff", predictor.getTrainingData());
         //classifierLoader.saveModel("C:/Users/Schje/Downloads/FileSorter - af Mathias/" + "modelFile.model", predictor.getClassifier());
 
-        // Predict the class for the test data
         String predictedClass = predictor.predictClass(testData);
 
-        // Print the result
         System.out.println("Predicted Class: " + predictedClass);
     }
 }

@@ -12,7 +12,7 @@ import java.util.Set;
 public class ConfigurationFile {
 
     //root
-    private String root="C:\\Users\\Schje\\Downloads\\FileSorter - af Mathias";
+    private String root=System.getProperty("user.home") + File.separator + "Downloads" + File.separator + "FileSorter - af Mathias";
     private final Yaml configuration;
     private File file;
 
@@ -32,11 +32,24 @@ public class ConfigurationFile {
     }
 
     public boolean create() {
-        File file = new File(Main.class.getResource("/config.yml").getFile());
-        new File(String.valueOf(file.toPath())).renameTo(new File(root));
+        try {
+            InputStream inputStream = getClass().getResourceAsStream("/config.yml");
+            OutputStream outputStream = new FileOutputStream(root + File.separator + "config.yml");
 
-        if (file.exists()) return true;
-        return false;
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            inputStream.close();
+            outputStream.close();
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
     public Set<String> getKeys(String section){
         // Get the 'classes' section
@@ -62,9 +75,49 @@ public class ConfigurationFile {
     }
 
     public Object get(String value) {
-        System.out.printf(loaded.toString());
         if(value==null)return loaded.values();
         return loaded.get(value);
     }
+    public void addSubject(String subjectName) {
+        Map<String, Object> classesSection = (Map<String, Object>) loaded.get("classes");
+        if (classesSection == null) {
+            classesSection = new HashMap<>();
+            loaded.put("classes", classesSection);
+        }
+
+        classesSection.put(subjectName, new HashMap<>()); // Empty map for subject data
+        saveConfiguration();
+    }
+
+    private void saveConfiguration() {
+        try (Writer writer = new FileWriter(file)) {
+            configuration.dump(loaded, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeSubject(String subjectName) {
+        Map<String, Object> classesSection = (Map<String, Object>) loaded.get("classes");
+        if (classesSection != null) {
+            classesSection.remove(subjectName);
+            saveConfiguration();
+        }
+    }
+    public void removeSubject(int subjectId) {
+        Map<String, Object> classesSection = (Map<String, Object>) loaded.get("classes");
+        if (classesSection != null) {
+            int i = 1;
+            for (Map.Entry<String, Object> entry : classesSection.entrySet()) {
+                if (i == subjectId) {
+                    classesSection.remove(entry.getKey());
+                    saveConfiguration();
+                    return;
+                }
+                i++;
+            }
+        }
+    }
+
 
 }

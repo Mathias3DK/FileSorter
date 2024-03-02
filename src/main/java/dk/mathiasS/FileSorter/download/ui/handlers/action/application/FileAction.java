@@ -1,4 +1,4 @@
-package dk.mathiasS.FileSorter.download.ui.handlers.action;
+package dk.mathiasS.FileSorter.download.ui.handlers.action.application;
 
 import dk.mathiasS.FileSorter.download.listener.DownloadListener;
 
@@ -25,7 +25,7 @@ public class FileAction implements ActionListener {
         //if button is pressed
         if(button.isEnabled()){
             boolean enabled = event.toggle();
-            button.setText((enabled ? "Stop" : "Start") + " File Listener");
+            button.setText((enabled ? "Stop" : "Start") + " Auto sortering");
         }
     }
 }

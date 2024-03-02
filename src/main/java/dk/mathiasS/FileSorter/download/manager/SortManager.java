@@ -14,7 +14,7 @@ public class SortManager {
 
     }
 
-    private void sort(){
+    public void sort(){
 
     }
     //simple sort logic, only for one file  

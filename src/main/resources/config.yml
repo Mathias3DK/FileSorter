@@ -9,7 +9,7 @@ classes:
     alias: DK
     metadata: []
   Samfundsfag:
-    alias: samf
+    alias: SAMF
     metadata: []
   Informatik:
     alias: IT
@@ -20,4 +20,3 @@ classes:
   Afsætning:
     alias: AF
     metadata: []
-

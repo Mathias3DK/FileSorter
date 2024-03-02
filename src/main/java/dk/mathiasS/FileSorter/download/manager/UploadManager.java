@@ -4,6 +4,7 @@ import dk.mathiasS.FileSorter.download.ui.Application;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.io.File;
 import java.util.HashMap;
 
@@ -27,6 +28,7 @@ public class UploadManager {
         fileChooser.setFileFilter(filter);
 
         int userSelection = fileChooser.showSaveDialog(null);
+
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File[] files = fileChooser.getSelectedFiles();

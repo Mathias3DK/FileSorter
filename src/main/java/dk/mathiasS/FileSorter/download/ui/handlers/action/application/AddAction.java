@@ -1,4 +1,4 @@
-package dk.mathiasS.FileSorter.download.ui.handlers.action;
+package dk.mathiasS.FileSorter.download.ui.handlers.action.application;
 
 import dk.mathiasS.FileSorter.Main;
 import dk.mathiasS.FileSorter.download.listener.DownloadListener;

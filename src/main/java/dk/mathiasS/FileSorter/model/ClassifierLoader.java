@@ -25,7 +25,7 @@ public class ClassifierLoader {
         predictor.loadARFF(arffFilePath);
         //if (trainingInProgress()) {
         //    // Load ARFF file
-        //    System.out.println("Training: " + trainingInProgress());
+        //    System.out.println("Training: " + trainingInProgress  ());
         //    predictor.loadARFF(arffFilePath);
         //} else {
         //    // Load model file

@@ -1,6 +1,10 @@
 package dk.mathiasS.FileSorter.configuration;
 
+import dk.mathiasS.FileSorter.Main;
+import org.apache.xmlbeans.impl.xb.xmlconfig.ConfigDocument;
+
 import java.io.File;
+import java.io.IOException;
 
 public class Module {
 
@@ -8,6 +12,7 @@ public class Module {
     private String file_root="C:/Users/Schje/Desktop/Skole/";
 
     private String dir;
+    private int id;
 
     public Module(String name){
         this.name=name; //setting the name
@@ -30,6 +35,10 @@ public class Module {
         return dir;
     }
 
+    public String getAlias() throws IOException {
+        return (String) Main.config.getInSection("alias", getName());
+    }
+
     public void setDir(String path){
         dir = path;
     }
@@ -47,6 +56,11 @@ public class Module {
     }
 
 
+    public void setId(int i) {
+        this.id=i;
+    }
 
-
+    public int getId() {
+        return id;
+    }
 }

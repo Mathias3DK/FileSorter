@@ -147,10 +147,8 @@ public class ClassPredictor {
     private Instances createInstance(DataRetriever dataRetriever) {
         Instances dataset = trainingData;  // assuming trainingData is initialized
 
-        // Assuming the correct size of the instance based on the dataset attributes
         Instance instance = new DenseInstance(dataset.numAttributes());
 
-        // Set attribute values
         for (int i = 0; i < dataset.numAttributes(); i++) {
             Attribute attribute = dataset.attribute(i);
 

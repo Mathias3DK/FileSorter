@@ -1,15 +1,21 @@
 package dk.mathiasS.FileSorter.download.listener;
 
-import dk.mathiasS.FileSorter.download.ui.DefineFileUI;
+import dk.mathiasS.FileSorter.download.ui.define.DefineFileUI;
+import org.apache.commons.math3.analysis.function.Exp;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DownloadListener {
 
     private boolean enabled;
     private WatchService watchService;
     private Thread thread;
+    private Map<String, File> fileList = new HashMap<>();
 
     public DownloadListener() {
         this.enabled = false;
@@ -30,57 +36,81 @@ public class DownloadListener {
 
         return enabled;
     }
+
+
     private void start() {
         // Sti til mappen, du vil overvåge
-        Path dir = Paths.get("C:\\Users\\Schje\\Downloads");
+        Path dir = Paths.get(System.getProperty("user.home") + File.separator + "Downloads");
 
         try {
-            // Opret WatchService
             watchService = FileSystems.getDefault().newWatchService();
 
-            // Registrer WatchService til OVERFLOW og ENTRY_CREATE hændelser
             dir.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.OVERFLOW);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thread = new Thread(() -> {
+            while (enabled) {
+                try {
+                    WatchKey key = watchService.take();
 
-            // Start tråd til at behandle WatchService-hændelser
-            thread = new Thread(() -> {
-                while (enabled) {
-                    try {
-                        WatchKey key = watchService.take();
+                    if (!enabled) {
+                        return;
+                    }
 
-                        if (!enabled) {
-                            return; // Afslut tråden, hvis tråden skal stoppe
-                        }
-
-                        for (WatchEvent<?> event : key.pollEvents()) {
-                            if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE) {
-                                Path nyFil = (Path) event.context();
-                                System.out.println("Ny fil oprettet: " + nyFil);
-
-                                new DefineFileUI(nyFil.toFile());
+                    for (WatchEvent<?> event : key.pollEvents()) {
+                        if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE) {
+                            Path newPath = (Path) event.context();
+                            File newFile = newPath.toFile();
+                            // Check if file is not an intermediate file or temporary file
+                            if (!isIntermediateFile(newFile) && !isTemporaryFile(newFile)) {
+                                String fileName = newFile.getName();
+                                if (!fileList.containsKey(fileName)) {
+                                    System.out.println("Processing file: " + fileName);
+                                    fileList.put(fileName, newFile);
+                                    new DefineFileUI(newFile);
+                                }
                             }
                         }
-
-                        key.reset();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
                     }
-                }
-
-                try {
-                    // Luk WatchService, når tråden stopper
-                    watchService.close();
-                } catch (IOException e) {
+                    key.reset();
+                } catch (InterruptedException e) {
                     e.printStackTrace();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-            });
+            }
 
-            thread.start();
+            try {
+                watchService.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        thread.start();
+
     }
 
+
+    private boolean isIntermediateFile(File file) {
+        // Define patterns or extensions for intermediate files
+        String[] intermediateFileExtensions = {"crdownload"};
+        String fileName = file.getName();
+
+        for (String extension : intermediateFileExtensions) {
+            if (fileName.endsWith("." + extension)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isTemporaryFile(File file) {
+        // Define patterns or identifiers for temporary files
+        String fileName = file.getName();
+
+        // Check if file name contains a pattern for temporary files
+        return fileName.matches("[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}\\.tmp");
+    }
 }

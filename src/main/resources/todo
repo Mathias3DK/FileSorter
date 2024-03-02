@@ -29,3 +29,7 @@ Switched up to machine learning (WEKA API)
 Configure Modules:
  add module; name tab for module
  configuration such as, autosort, delete when not used
+
+
+Further updates:
+- in add function, put below 'fag name' a 'end date' where user can provide a date the subject should end, and therefor delete itsself

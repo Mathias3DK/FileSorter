@@ -7,10 +7,14 @@ package dk.mathiasS.FileSorter;
 
 import dk.mathiasS.FileSorter.configuration.ConfigurationFile;
 import dk.mathiasS.FileSorter.configuration.Module;
+import dk.mathiasS.FileSorter.database.DatabaseHandler;
 import dk.mathiasS.FileSorter.download.ui.Application;
+import dk.mathiasS.FileSorter.model.data.DataSetCreator;
 
 import java.io.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -21,25 +25,38 @@ public class Main {
         ArrayList<Module> modules = new ArrayList<>();
 
         ConfigurationFile config = new ConfigurationFile(new File(System.getProperty("user.home") + File.separator + "Downloads" + File.separator + "FileSorter - af Mathias" + File.separator + "config.yml"));
-        int i = 1;
-        for (java.lang.String module : config.getKeys("classes")) {
+        List<String> keyList = new ArrayList<>(config.getKeys("classes")); // Convert Set to List
+        for(int i = 1;i<keyList.size()+1;i++)
+        {
+            String subj=keyList.get(i-1);
 
-            Module subject = new Module(module);
+            if(subj==null)
+                return null;
+
+            Module subject = new Module(subj);
 
             subject.setId(i);
             subject.create();
-            i++;
 
             modules.add(subject);
         }
         return modules;
     }
-    public static void main(String[] args) throws IOException {
+
+    //TODO MAKE SURE ARFF FILE EXISTS AND DO SO IT DOESNT REUPLOAD THE SAME DATAs
+    public static void main(String[] args) throws IOException, SQLException {
 
         config = new ConfigurationFile(new File(System.getProperty("user.home") + File.separator + "Downloads" + File.separator + "FileSorter - af Mathias" + File.separator + "config.yml"));
         classes = initalizeClasses();
 
-        //for(Module clazz : classes) System.out.println(clazz.getName());
+        if(!new File(System.getProperty("user.home") + File.separator + "Downloads" + File.separator + "FileSorter - af Mathias" + File.separator + "file_sorter_data.arff").exists())
+
+        {
+
+            DataSetCreator dataSetCreator = new DataSetCreator();
+            dataSetCreator.createDataset();
+
+        }
 
         new Application();
 
@@ -48,6 +65,8 @@ public class Main {
         //    System.out.println(config.getInSection("alias", modules));
         //}
     }
+
+
 }
 
 

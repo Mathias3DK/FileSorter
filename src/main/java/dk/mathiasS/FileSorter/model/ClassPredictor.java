@@ -1,11 +1,15 @@
 package dk.mathiasS.FileSorter.model;
 
+import dk.mathiasS.FileSorter.Main;
+import dk.mathiasS.FileSorter.configuration.Module;
 import dk.mathiasS.FileSorter.model.data.DataRetriever;
 import weka.classifiers.Classifier;
 import weka.classifiers.trees.J48;
 import weka.core.*;
 import weka.core.converters.ArffLoader;
 import weka.core.converters.ArffSaver;
+import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.StringToNominal;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,18 +36,35 @@ public class ClassPredictor {
         attributes.add(contentAttr);
         attributes.add(typeAttr);
 
+        FastVector subjectValues = new FastVector();
+
+        try {
+            for (Module module : Main.initalizeClasses()) {
+                subjectValues.addElement(module.getName());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Attribute subjectAttribute = new Attribute("subject", subjectValues);
+        attributes.add(subjectAttribute);
+
         trainingData = new Instances("PredictorData", attributes, 0);
         trainingData.setClassIndex(attributes.size() - 1);
+
         classifier=new J48();
     }
 
     // Load ARFF file
 
     public void loadARFF(String filePath) throws IOException {
+
+        if(!new File(filePath).exists())
+            return;
+
         ArffLoader loader = new ArffLoader();
         loader.setFile(new File(filePath));
         Instances data = loader.getDataSet();
-        data.setClassIndex(data.numAttributes() - 1); // Assuming the last attribute is the class attribute
+        data.setClassIndex(data.numAttributes() - 1);
     }
 
     // Load model file
@@ -98,7 +119,12 @@ public class ClassPredictor {
     // Train the classifier
     public void trainClassifier() {
         try {
-            classifier.buildClassifier(trainingData);
+            StringToNominal filter = new StringToNominal();
+            String[] options = {"-R", "first-last"};
+            filter.setOptions(options);
+            filter.setInputFormat(trainingData);
+            Instances filteredData = Filter.useFilter(trainingData, filter);
+            classifier.buildClassifier(filteredData);
             // Print statement for debugging
             System.out.println("Classifier trained.");
         } catch (Exception e) {
@@ -138,6 +164,7 @@ public class ClassPredictor {
     public Instances getTrainingData() {
         return trainingData;
     }
+
 
     public Classifier getClassifier() {
         return classifier;
@@ -179,6 +206,7 @@ public class ClassPredictor {
         // Create a new Instances object and add the instance
         Instances newInstances = new Instances(dataset, 0);
         newInstances.add(instance);
+
 
         return newInstances;
     }

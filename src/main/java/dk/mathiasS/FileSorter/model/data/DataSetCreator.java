@@ -5,9 +5,11 @@ import dk.mathiasS.FileSorter.configuration.Module;
 import weka.classifiers.Classifier;
 import weka.classifiers.trees.J48;
 import weka.core.*;
+import weka.core.converters.ArffSaver;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.StringToNominal;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
@@ -37,10 +39,20 @@ public class DataSetCreator {
         attributes.addElement(subjectAttribute);
 
         // Create empty dataset
-        dataset = new Instances("FileSorterData", attributes, 0);
+        dataset = new Instances("PredictorData", attributes, 0);
+
+        ArffSaver arffSaver = new ArffSaver();
+        arffSaver.setInstances(dataset);
+        try {
+            arffSaver.setFile(new File(System.getProperty("user.home") + File.separator + "Downloads" + File.separator + "FileSorter - af Mathias" + File.separator + "file_sorter_data.arff"));
+            arffSaver.writeBatch();
+            System.out.println("ARFF file saved successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // Generate fictive data for 10 files
-        Random rand = new Random();
+        /*Random rand = new Random();
         for (int i = 0; i < 10; i++) {
             Instance instance = new DenseInstance(6);
             instance.setDataset(dataset);
@@ -54,10 +66,10 @@ public class DataSetCreator {
             // Randomly select a subject
             instance.setValue(5, String.valueOf(subjectValues.elementAt(rand.nextInt(subjectValues.size())))); // Subject
             dataset.add(instance);
-        }
+        }*/
     }
 
-    public void buildClassifier() throws Exception {
+    /*public void buildClassifier() throws Exception {
         // Set class attribute
         dataset.setClassIndex(dataset.numAttributes() - 1);
 
@@ -71,9 +83,9 @@ public class DataSetCreator {
         // Build classifier
         classifier = new J48();
         classifier.buildClassifier(filteredData);
-    }
+    }*/
 
-    public String predict(String name, String owner, double size, String content, String type) throws Exception {
+ /*   public String predict(String name, String owner, double size, String content, String type) throws Exception {
         // Create instance for prediction
         Instance instance = new DenseInstance(6);
         instance.setDataset(dataset);
@@ -91,16 +103,16 @@ public class DataSetCreator {
         // Return the predicted class value
         return dataset.classAttribute().value((int) prediction);
     }
-
+*/
     public static void main(String[] args) {
         try {
             DataSetCreator dataSetCreator = new DataSetCreator();
             dataSetCreator.createDataset();
-            dataSetCreator.buildClassifier();
+/*            dataSetCreator.buildClassifier();
 
             // Example prediction
             String prediction = dataSetCreator.predict("File1", "Owner1", 150, "Content1", "pdf");
-            System.out.println("Prediction: " + prediction);
+            System.out.println("Prediction: " + prediction);*/
         } catch (Exception e) {
             e.printStackTrace();
         }

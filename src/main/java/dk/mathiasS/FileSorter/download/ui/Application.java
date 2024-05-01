@@ -1,11 +1,11 @@
 package dk.mathiasS.FileSorter.download.ui;
 
+import dk.mathiasS.FileSorter.download.listener.DownloadListener;
 import dk.mathiasS.FileSorter.download.manager.UploadManager;
 import dk.mathiasS.FileSorter.download.ui.handlers.HandleCached;
 import dk.mathiasS.FileSorter.download.ui.handlers.action.application.AddAction;
 import dk.mathiasS.FileSorter.download.ui.handlers.action.application.ClearAction;
 import dk.mathiasS.FileSorter.download.ui.handlers.action.application.FileAction;
-import dk.mathiasS.FileSorter.download.ui.handlers.action.configure.ConfigureAction;
 import dk.mathiasS.FileSorter.download.ui.handlers.configure.ConfigureUI;
 
 import javax.swing.*;
@@ -30,6 +30,9 @@ public class Application {
         Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\Schje\\Downloads\\Icons8_flat_opened_folder.svg.png");
         frame.setIconImage(icon);
 
+        //prioitize frame
+        if(frame.isAlwaysOnTopSupported()) frame.setAlwaysOnTop(true);
+
         //TITLE
         JLabel label = new JLabel("FIL SORTERING");
         label.setFont(this.font);
@@ -43,10 +46,10 @@ public class Application {
         configureBox.setForeground(new Color(255, 255, 255));
         configureBox.setBorder(BorderFactory.createLineBorder(Color.black, 3));
 
-        JButton startBox=new JButton("Start Auto sortering");
-        JButton sortBox=new JButton("Sorter cached filer");
-        JButton clearCacheBox=new JButton("Ryd cached filer");
-        JButton addFile=new JButton("Tilføj filer til cache");
+        JButton startBox=new JButton(((DownloadListener.inAction() ? "Stop" : "Start") + " Auto sortering"));
+        JButton sortBox=new JButton("Sorter listede filer");
+        JButton clearCacheBox=new JButton("Ryd aktuelle filer");
+        JButton addFile=new JButton("Tilføj filer til liste");
 
         //setting background and border for all looped fields
         for(JButton field : new JButton[]{addFile, clearCacheBox, startBox, sortBox}){
@@ -71,7 +74,7 @@ public class Application {
         startBox.setBounds(100,130,200,40);
         sortBox.setBounds(100,90,200,40);
 
-        JLabel cacheTitle = new JLabel("CACHED FILER");
+        JLabel cacheTitle = new JLabel("LISTED FILER");
         cacheTitle.setFont(this.font);
         cacheTitle.setBounds(110,310,250,60);
 

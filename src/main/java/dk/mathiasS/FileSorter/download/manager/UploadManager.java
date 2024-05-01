@@ -29,7 +29,6 @@ public class UploadManager {
 
         int userSelection = fileChooser.showSaveDialog(null);
 
-
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File[] files = fileChooser.getSelectedFiles();
 

@@ -23,6 +23,8 @@ public class DefineFileUI extends JFrame {
 
         this.file=file;
 
+        if(this.isAlwaysOnTopSupported()) this.setAlwaysOnTop(true);
+
         this.setTitle(file.getName());
         Font font = new Font("Verdana", Font.BOLD, 20);
 
@@ -47,7 +49,7 @@ public class DefineFileUI extends JFrame {
         //classes
         for(Module module : Main.initalizeClasses()) {
             JButton button = button(module.getName());
-            new SelectModule(button, this.file);
+            button.addActionListener(new SelectModule(button, this.file));
         }
 
         this.page=1;
@@ -124,7 +126,7 @@ public class DefineFileUI extends JFrame {
             temp.setBounds(100, y, sWidth, sHeight);
 
             this.components.add(temp);
-        } else{
+        } else {
             System.out.println("Not enough space for the new button!");
         }
 

@@ -1,29 +1,30 @@
 package dk.mathiasS.FileSorter.download.listener;
 
 import dk.mathiasS.FileSorter.download.ui.define.DefineFileUI;
+import dk.mathiasS.FileSorter.model.ClassPredictor;
+import dk.mathiasS.FileSorter.model.TrainClassPredictor;
+import dk.mathiasS.FileSorter.model.data.DataRetriever;
 import org.apache.commons.math3.analysis.function.Exp;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class DownloadListener {
 
-    private boolean enabled;
+    private static boolean enabled;
     private WatchService watchService;
     private Thread thread;
     private Map<String, File> fileList = new HashMap<>();
 
     public DownloadListener() {
-        this.enabled = false;
+        enabled = false;
         this.watchService = null;
         this.thread = null;
     }
 
-    public boolean inAction() {
+    public static boolean inAction() {
         return enabled;
     }
 
@@ -39,7 +40,6 @@ public class DownloadListener {
 
 
     private void start() {
-        // Sti til mappen, du vil overvåge
         Path dir = Paths.get(System.getProperty("user.home") + File.separator + "Downloads");
 
         try {
@@ -63,12 +63,15 @@ public class DownloadListener {
                             Path newPath = (Path) event.context();
                             File newFile = newPath.toFile();
                             // Check if file is not an intermediate file or temporary file
-                            if (!isIntermediateFile(newFile) && !isTemporaryFile(newFile)) {
+                            if (!isIntermediateFile(newFile) && !isTemporaryFile(newFile) && isValidFileExtension(newFile)) {
                                 String fileName = newFile.getName();
                                 if (!fileList.containsKey(fileName)) {
                                     System.out.println("Processing file: " + fileName);
                                     fileList.put(fileName, newFile);
-                                    new DefineFileUI(newFile);
+
+                                    DataRetriever data = new DataRetriever(newFile);
+
+                                    new DefineFileUI(new File(dir + "/" + newFile));
                                 }
                             }
                         }
@@ -104,6 +107,13 @@ public class DownloadListener {
             }
         }
         return false;
+    }
+
+    private boolean isValidFileExtension(File file) {
+        List<String> allowedExtensions = Arrays.asList("pdf", "docx", "xlsx", "mw", "ppt", "csv");
+        String fileName = file.getName();
+        String extension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+        return allowedExtensions.contains(extension);
     }
 
     private boolean isTemporaryFile(File file) {
